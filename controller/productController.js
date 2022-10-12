@@ -6,7 +6,7 @@ const productModel = require("../model/productModel")
 
 const getAll = async (req, res) => {
 
-    const result = await productModel.find({})
+    const result = await productModel.find({}).sort({createdAt: -1})
 
     if (!result) {
         return res.status(400).json({ error: 'No Data found' })
