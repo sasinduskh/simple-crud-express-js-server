@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 
 const { MONGO_DB_URL } = require('./Config')
-const { route } = require('./routes/productRoutes')
+const productRouter = require('./routes/productRoutes')
 
 
 // this is express app
@@ -20,8 +20,11 @@ app.use(cors());
 app.use(express.json())
 
 
+app.use('/hello', (req, res)=>{
+  res.send("Hello")
+})
 
-app.use('/api/product', route)
+app.use('/api/product/', productRouter)
 
 
 // Connect to Database

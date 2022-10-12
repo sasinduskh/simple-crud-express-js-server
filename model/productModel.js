@@ -8,6 +8,9 @@ const productModel = new Schema({
     },
     productDescription: {
         type: String
+    },
+    imageUrl:{
+        type: String
     }
 }, { timestamps: true });
 

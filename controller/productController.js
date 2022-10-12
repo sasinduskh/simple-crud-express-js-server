@@ -1,5 +1,42 @@
 const productModel = require("../model/productModel")
 
+
+
+// Get All Products
+
+const getAll = async (req, res) => {
+
+    const result = await productModel.find({})
+
+    if (!result) {
+        return res.status(400).json({ error: 'No Data found' })
+    }
+
+    res.status(200).json({ message: 'success', data: result })
+}
+
+
+// find product by naeme
+
+const searchProduct = async (req, res) => {
+    const { name } = req.query
+
+    try {
+
+        const result = await productModel.find({
+            productName: { '$regex': name, '$options': 'i' }
+        })
+
+        if (!result) {
+            return res.status(400).json({ error: 'no data found' })
+        }
+
+        res.status(200).json({ message: 'success', data: result })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 // add new product 
 const addNewProduct = async (req, res) => {
 
@@ -56,7 +93,7 @@ const deletProduct = async (req, res) => {
     }
 
     try {
-        const result = await productModel.findByIdAndRemove({ _id: id })
+        const result = await productModel.findByIdAndDelete({ _id: id })
 
         if (!result) {
             return res.status(400).json({ error: 'Not Delete Product' })
@@ -86,4 +123,4 @@ const findProduct = async (req, res) => {
         console.log(err);
     }
 }
-module.exports = { addNewProduct, findProduct, deletProduct, editProduct }
+module.exports = { addNewProduct, findProduct, deletProduct, editProduct, getAll, searchProduct }
